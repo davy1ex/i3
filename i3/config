@@ -153,7 +153,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
-        #position top
+       #position top
 }
 
 ##################################################
@@ -185,7 +185,7 @@ exec xinput --set-prop 9 "Synaptics Two-Finger Scrolling" 1 1 #horizontal scroll
 # custom sysbind
 bindsym $mod+Shift+f exec firefox #firefox
 bindsym Print exec gnome-screenshot -ia #screenshot
-bindsym Shift+Control+l exec i3lock -c 000000 #i3lock
+bindsym Shift+Control+l exec i3lock -ti ~/Pictures/wallpapers/sorry.png #i3lock
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
@@ -193,6 +193,7 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
 bindsym $mod+d exec rofi -show drun -theme solarized # rofi 
 bindsym mod1+Tab exec rofi -show window -theme solarized # rofi
+bindsym Control+mod1+Delete exec ~/power.sh
 
 # exexc
 # applets
