@@ -163,11 +163,11 @@ bar {
 ### pc ###
 #
 # display
-exec xrandr --output VGA-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DVI-D-1 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal #display counting
+exec xrandr --output VGA-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal #display counting
 #
 # workspace settings
-workspace 1 output HDMI-1
-workspace 5 output VGA-1
+workspace 1 output HDMI-0
+workspace 2 output VGA-0
 #
 # execs
 exec_always setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle" #keyboard layouts
@@ -177,21 +177,22 @@ exec_always setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle" #keyboard layout
 
 
 # visual
-exec_always feh --bg-fill /home/davy1ex/Pictures/wallpapers/minimalism_texture_black_55242_1920x1080.png #wallpapers
+exec_always feh --bg-scale  ~/Pictures/wallpapers/witcher2.jpg ~/Pictures/wallpapers/ironman.png #wallpapers
 exec xinput --set-prop 9 "Synaptics Two-Finger Scrolling" 1 1 #horizontal scrollint
 
 
 
 # custom sysbind
 bindsym $mod+Shift+f exec firefox #firefox
-bindsym Print exec gnome-screenshot -ia #screenshot
-bindsym Shift+Control+l exec i3lock -ti ~/Pictures/wallpapers/sorry.png #i3lock
+# bindsym Print exec gnome-screenshot -ia #screenshot
+bindsym Print exec gnome-screenshot -i
+bindsym $mod+Control+l exec i3lock -ti ~/Pictures/wallpapers/sorry.png #i3lock
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
-bindsym $mod+d exec rofi -show drun -theme solarized # rofi 
+bindsym $mod+d exec rofi -show drun -theme glue_pro_blue # rofi 
 bindsym mod1+Tab exec rofi -show window -theme solarized # rofi
 bindsym Control+mod1+Delete exec ~/power.sh
 
@@ -203,6 +204,9 @@ exec --no-startup-id /usr/bin/pasystray 				#volume
 exec --no-startup-id /usr/bin/gnome-settings-daemon 	#powermanager
 exec --no-startup-id caffeine                                           #caffeine activate
 exec --no-startup-id caffeine-indicator                                 #caffeine-indicator
+exec --no-startup-id xfce4-clipman  # clipboard app
 
 # visual
 for_window [class="^.*"] border pixel 3 		#no titles, 2px for borders
+for_window [class="Godot"] floating enable # open godot in floating mode
+for_window [class="Xfce4-terminal"] floating enable
