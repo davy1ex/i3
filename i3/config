@@ -209,4 +209,6 @@ exec --no-startup-id xfce4-clipman  # clipboard app
 # visual
 for_window [class="^.*"] border pixel 3 		#no titles, 2px for borders
 for_window [class="Godot"] floating enable # open godot in floating mode
-for_window [class="Xfce4-terminal"] floating enable
+# i3-gaps
+for_window [class=".*"] border pixel 1
+gaps inner 5
