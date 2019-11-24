@@ -30,7 +30,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec xfce4-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -155,6 +155,7 @@ bar {
         status_command i3status
        #position top
 }
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 ##################################################
 # -------------- my settings ------------------- #
@@ -163,33 +164,46 @@ bar {
 ### pc ###
 #
 # display
-exec xrandr --output VGA-0 --mode 1920x1080 --pos 1920x0 --rotate normal --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal #display counting
+exec xrandr --output VGA-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1920x0 --rotate normal
 #
 # workspace settings
-workspace 1 output HDMI-0
-workspace 2 output VGA-0
-#
-# execs
-exec_always setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle" #keyboard layouts
+workspace 1 output VGA-0
+workspace 2 output HDMI-0
 #
 ### endpc ###
 
 
 
 # visual
-exec_always feh --bg-scale  ~/Pictures/wallpapers/witcher2.jpg ~/Pictures/wallpapers/ironman.png #wallpapers
+exec_always feh --bg-scale  ~/hdd/Pictures/wallpapers/ironman.png ~/Pictures/wallpapers/ironman.png #wallpapers
 exec xinput --set-prop 9 "Synaptics Two-Finger Scrolling" 1 1 #horizontal scrollint
+
+#for_window [class="^.*"] border pixel 3 #no titles, 2px for borders
+for_window [class="Godot"] floating enable # open godot in floating mode
+exec --no-startup-id compton &
+
+# i3-gaps
+for_window [class=".*"] border pixel 5
+gaps inner 5
+for_window [class="^.*"] border pixel 3
+smart_borders on
+
+#enable floating mode for windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
 
 
 
 # custom sysbind
 bindsym $mod+Shift+f exec firefox #firefox
-# bindsym Print exec gnome-screenshot -ia #screenshot
-bindsym Print exec gnome-screenshot -i
-bindsym $mod+Control+l exec i3lock -ti ~/Pictures/wallpapers/sorry.png #i3lock
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+bindsym Shift+Print exec gnome-screenshot -i #screenshot interactive
+bindsym Print exec gnome-screenshot -ac #screenshot area
+
+bindsym $mod+Control+l exec i3lock -ti ~/hdd/Pictures/wallpapers/sorry.png #i3lock
+bindsym XF86AudioRaiseVolume exec amixer -q sset Master 5%+ unmute  #--no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec amixer -q sset Master 5%- unmute  #--no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec amixer -q sset Master toggle  #--no-startup-id pactl set-sink-mute 0 toggle # mute sound
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
 bindsym $mod+d exec rofi -show drun -theme glue_pro_blue # rofi 
@@ -205,10 +219,29 @@ exec --no-startup-id /usr/bin/gnome-settings-daemon 	#powermanager
 exec --no-startup-id caffeine                                           #caffeine activate
 exec --no-startup-id caffeine-indicator                                 #caffeine-indicator
 exec --no-startup-id xfce4-clipman  # clipboard app
+# keyboard
+exec_always setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle" #keyboard layouts
 
-# visual
-for_window [class="^.*"] border pixel 3 		#no titles, 2px for borders
-for_window [class="Godot"] floating enable # open godot in floating mode
-# i3-gaps
-for_window [class=".*"] border pixel 1
-gaps inner 5
+
+
+
+
+# Restart or shutdown or suspend by using WinKey+Pause key with meny to select option
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Assign application to start on a specific workspace xprop
+assign [class="^Firefox$"] 1
+assign [class="^Slack$"] 3
+assign [class="^Code$"] 2
+assign [class="^Vlc$"] 9
