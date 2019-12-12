@@ -258,14 +258,6 @@ exec_always setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle" #keyboard layout
 
 
 
-# Assign application to start on a specific workspace xprop
-assign [class="^Firefox$"] 1
-assign [class="^Slack$"] 3
-assign [class="^Code$"] 2
-assign [class="^Vlc$"] 9
-
-
-
 
 
 
